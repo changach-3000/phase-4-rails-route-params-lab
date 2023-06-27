@@ -1,7 +1,12 @@
 class StudentsController < ApplicationController
 
   def index
-    students = Student.all
+    if params[:query]
+      students = Student.where("first_name LIKE :query OR last_name LIKE :query", query: "%#{params[:query]}%")
+    else
+      students = Student.all
+    end
+  
     render json: students
   end
 
